@@ -1,41 +1,41 @@
 // Superclass
-class DocumentCreator {
-    createDocument() {
+class PaymentProcessor {
+    processPayment(amount) {
         throw new Error("Este método debe ser sobrescrito");
     }
 }
 
-// Concrete Creators
-class PDFCreator extends DocumentCreator {
-    createDocument() {
-        return new PDFDocument();
+// Concrete Processors
+class CreditCardProcessor extends PaymentProcessor {
+    processPayment(amount) {
+        console.log(`Procesando pago de $${amount} con tarjeta de crédito.`);
     }
 }
 
-class DOCXCreator extends DocumentCreator {
-    createDocument() {
-        return new DOCXDocument();
+class PayPalProcessor extends PaymentProcessor {
+    processPayment(amount) {
+        console.log(`Procesando pago de $${amount} con PayPal.`);
     }
 }
 
-// Product Classes
-class PDFDocument {
-    constructor() {
-        console.log("Documento PDF creado.");
+class CryptoProcessor extends PaymentProcessor {
+    processPayment(amount) {
+        console.log(`Procesando pago de $${amount} con criptomoneda.`);
     }
 }
 
-class DOCXDocument {
-    constructor() {
-        console.log("Documento DOCX creado.");
+// Factory Method
+function getPaymentProcessor(type) {
+    switch(type) {
+        case 'creditCard': return new CreditCardProcessor();
+        case 'paypal': return new PayPalProcessor();
+        case 'crypto': return new CryptoProcessor();
+        default: throw new Error("Método de pago no soportado");
     }
 }
 
-// Client code
-function clientCode(creator) {
-    const document = creator.createDocument();
-    console.log(document);
-}
+// Client Code
+const paymentType = 'paypal';  // Puede venir de la elección del usuario
+const processor = getPaymentProcessor(paymentType);
+processor.processPayment(100); // Procesando pago de $100 con PayPal.
 
-clientCode(new PDFCreator()); // Documento PDF creado.
-clientCode(new DOCXCreator()); // Documento DOCX creado.
