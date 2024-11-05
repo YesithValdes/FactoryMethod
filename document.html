@@ -1,0 +1,41 @@
+// Superclass
+class DocumentCreator {
+    createDocument() {
+        throw new Error("Este método debe ser sobrescrito");
+    }
+}
+
+// Concrete Creators
+class PDFCreator extends DocumentCreator {
+    createDocument() {
+        return new PDFDocument();
+    }
+}
+
+class DOCXCreator extends DocumentCreator {
+    createDocument() {
+        return new DOCXDocument();
+    }
+}
+
+// Product Classes
+class PDFDocument {
+    constructor() {
+        console.log("Documento PDF creado.");
+    }
+}
+
+class DOCXDocument {
+    constructor() {
+        console.log("Documento DOCX creado.");
+    }
+}
+
+// Client code
+function clientCode(creator) {
+    const document = creator.createDocument();
+    console.log(document);
+}
+
+clientCode(new PDFCreator()); // Documento PDF creado.
+clientCode(new DOCXCreator()); // Documento DOCX creado.
